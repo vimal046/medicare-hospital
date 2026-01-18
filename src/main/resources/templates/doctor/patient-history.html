@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head}"></head>
+<body>
+	<nav th:replace="~{fragments/header :: navbar}"></nav>
+
+	<div class="container py-4">
+		<div class="d-flex align-items-center mb-4">
+			<a th:href="@{/doctor/appointments}"
+				class="btn btn-outline-secondary me-3"> <i
+				class="fas fa-arrow-left"></i>
+			</a>
+			<h2 class="page-title mb-0">
+				<i class="fas fa-history"></i> Patient Medical History
+			</h2>
+		</div>
+
+		<!-- Patient Information Card -->
+		<div class="card mb-4">
+			<div class="card-header"
+				style="background: linear-gradient(135deg, #2563eb, #1e40af);">
+				<h5 class="mb-0">
+					<i class="fas fa-user-circle"></i> Patient Information
+				</h5>
+			</div>
+			<div class="card-body">
+				<div class="row" th:if="${not #lists.isEmpty(appointments)}">
+					<div class="col-md-4">
+						<div class="mb-3">
+							<label class="text-secondary small">Patient Name</label>
+							<h6 class="fw-bold">
+								<i class="fas fa-user text-primary"></i> <span
+									th:text="${appointments[0].patientName}">John Doe</span>
+							</h6>
+						</div>
+						<div class="mb-3">
+							<label class="text-secondary small">Contact</label>
+							<h6 class="fw-bold" th:text="${appointments[0].patientEmail}">email@example.com</h6>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="mb-3">
+							<label class="text-secondary small">Total Appointments</label>
+							<h6 class="fw-bold">
+								<span class="badge bg-primary"
+									th:text="${#lists.size(appointments)}">0</span>
+							</h6>
+						</div>
+						<div class="mb-3">
+							<label class="text-secondary small">Completed Visits</label>
+							<h6 class="fw-bold">
+								<span class="badge bg-success"
+									th:text="${#lists.size(appointments.?[status == 'COMPLETED'])}">0</span>
+							</h6>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="mb-3">
+							<label class="text-secondary small">Total Prescriptions</label>
+							<h6 class="fw-bold">
+								<span class="badge bg-info"
+									th:text="${#lists.size(prescriptions)}">0</span>
+							</h6>
+						</div>
+					</div>
+				</div>
+
+				<div th:if="${#lists.isEmpty(appointments)}"
+					class="text-center py-4 text-secondary">
+					<i class="fas fa-info-circle fa-3x mb-3 d-block"></i>
+					<p class="mb-0">No patient information available</p>
+				</div>
+			</div>
+		</div>
+
+		<!-- Appointment History -->
+		<div class="row g-4 mb-4">
+			<div class="col-lg-8">
+				<div class="card">
+					<div class="card-header"
+						style="background: linear-gradient(135deg, #10b981, #059669);">
+						<h5 class="mb-0">
+							<i class="fas fa-calendar-alt"></i> Appointment History
+						</h5>
+					</div>
+					<div class="card-body p-0">
+						<div class="table-responsive">
+							<table class="table table-hover mb-0">
+								<thead>
+									<tr>
+										<th>Date</th>
+										<th>Time</th>
+										<th>Symptoms</th>
+										<th>Diagnosis</th>
+										<th>Status</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="apt : ${appointments}">
+										<td><i class="fas fa-calendar text-secondary"></i> <span
+											th:text="${apt.appointmentDate}">2025-01-15</span></td>
+										<td><i class="fas fa-clock text-secondary"></i> <span
+											th:text="${apt.appointmentTime}">10:00</span></td>
+										<td class="text-secondary small" th:text="${apt.symptoms}">Fever,
+											Headache</td>
+										<td class="text-secondary small"
+											th:text="${apt.diagnosis ?: 'N/A'}">Diagnosis</td>
+										<td><span class="badge"
+											th:classappend="${apt.status == 'COMPLETED' ? 'bg-success' : 'bg-warning'}"
+											th:text="${apt.status}">COMPLETED</span></td>
+									</tr>
+									<tr th:if="${#lists.isEmpty(appointments)}">
+										<td colspan="5" class="text-center py-4 text-secondary">
+											<i class="fas fa-inbox fa-3x mb-3 d-block"></i> No
+											appointment history available
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-4">
+				<div class="card">
+					<div class="card-header"
+						style="background: linear-gradient(135deg, #06b6d4, #0891b2);">
+						<h5 class="mb-0">
+							<i class="fas fa-chart-line"></i> Quick Stats
+						</h5>
+					</div>
+					<div class="card-body">
+						<div class="stat-item mb-4">
+							<div class="d-flex justify-content-between align-items-center">
+								<div>
+									<p class="text-secondary mb-1 small">Total Visits</p>
+									<h4 class="fw-bold mb-0" th:text="${#lists.size(appointments)}">0</h4>
+								</div>
+								<i class="fas fa-calendar-check fa-2x"
+									style="color: var(--primary-color); opacity: 0.3;"></i>
+							</div>
+						</div>
+
+						<div class="stat-item mb-4">
+							<div class="d-flex justify-content-between align-items-center">
+								<div>
+									<p class="text-secondary mb-1 small">Completed</p>
+									<h4 class="fw-bold mb-0"
+										th:text="${#lists.size(appointments.?[status == 'COMPLETED'])}">0</h4>
+								</div>
+								<i class="fas fa-check-circle fa-2x"
+									style="color: var(--success-color); opacity: 0.3;"></i>
+							</div>
+						</div>
+
+						<div class="stat-item mb-4">
+							<div class="d-flex justify-content-between align-items-center">
+								<div>
+									<p class="text-secondary mb-1 small">Prescriptions</p>
+									<h4 class="fw-bold mb-0"
+										th:text="${#lists.size(prescriptions)}">0</h4>
+								</div>
+								<i class="fas fa-prescription-bottle-alt fa-2x"
+									style="color: var(--info-color); opacity: 0.3;"></i>
+							</div>
+						</div>
+
+						<div class="stat-item">
+							<div class="d-flex justify-content-between align-items-center">
+								<div>
+									<p class="text-secondary mb-1 small">Scheduled</p>
+									<h4 class="fw-bold mb-0"
+										th:text="${#lists.size(appointments.?[status == 'SCHEDULED'])}">0</h4>
+								</div>
+								<i class="fas fa-clock fa-2x"
+									style="color: var(--warning-color); opacity: 0.3;"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Prescription History -->
+		<div class="card">
+			<div class="card-header"
+				style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+				<h5 class="mb-0">
+					<i class="fas fa-prescription-bottle-alt"></i> Prescription History
+				</h5>
+			</div>
+			<div class="card-body">
+				<div class="row g-3">
+					<div class="col-md-4" th:each="rx : ${prescriptions}">
+						<div class="card h-100 border-0 shadow-sm">
+							<div class="card-body">
+								<h6 class="fw-bold text-primary mb-3">
+									<i class="fas fa-pills"></i> <span th:text="${rx.medicineName}">Medicine</span>
+								</h6>
+								<div class="mb-2">
+									<label class="text-secondary small">Dosage:</label>
+									<p class="mb-0 fw-bold" th:text="${rx.dosage}">2 times
+										daily</p>
+								</div>
+								<div class="mb-2">
+									<label class="text-secondary small">Duration:</label>
+									<p class="mb-0">
+										<span class="badge bg-warning"
+											th:text="${rx.duration} + ' days'">7 days</span>
+									</p>
+								</div>
+								<div>
+									<label class="text-secondary small">Instructions:</label>
+									<p class="mb-0 small" th:text="${rx.instructions}">After
+										meals</p>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div th:if="${#lists.isEmpty(prescriptions)}" class="col-12">
+						<div class="text-center py-5 text-secondary">
+							<i class="fas fa-prescription fa-4x mb-3 d-block"
+								style="opacity: 0.3;"></i>
+							<h5 class="mb-2">No Prescriptions Found</h5>
+							<p class="mb-0">No prescriptions have been issued to this
+								patient yet.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Medical Notes Section -->
+		<div class="card mt-4">
+			<div class="card-header"
+				style="background: linear-gradient(135deg, #ef4444, #dc2626);">
+				<h5 class="mb-0">
+					<i class="fas fa-notes-medical"></i> Medical Notes
+				</h5>
+			</div>
+			<div class="card-body">
+				<div class="alert alert-info mb-3">
+					<i class="fas fa-info-circle"></i> <strong>Note:</strong> This
+					section displays all diagnoses from completed appointments.
+				</div>
+
+				<div class="timeline">
+					<div class="timeline-item mb-4"
+						th:each="apt : ${appointments.?[diagnosis != null]}">
+						<div class="d-flex">
+							<div class="timeline-marker me-3">
+								<div class="bg-primary rounded-circle"
+									style="width: 12px; height: 12px; margin-top: 6px;"></div>
+							</div>
+							<div class="flex-grow-1">
+								<div
+									class="d-flex justify-content-between align-items-start mb-2">
+									<h6 class="fw-bold mb-0">
+										<i class="fas fa-calendar text-secondary"></i> <span
+											th:text="${apt.appointmentDate}">2025-01-15</span>
+									</h6>
+									<span class="badge bg-success">Completed</span>
+								</div>
+								<div class="card border-start border-primary border-3">
+									<div class="card-body py-2 px-3">
+										<p class="text-secondary small mb-1">
+											<strong>Symptoms:</strong> <span th:text="${apt.symptoms}">Fever,
+												Headache</span>
+										</p>
+										<p class="mb-0">
+											<strong>Diagnosis:</strong> <span th:text="${apt.diagnosis}">Diagnosis
+												details</span>
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div th:if="${#lists.isEmpty(appointments.?[diagnosis != null])}"
+						class="text-center py-4 text-secondary">
+						<i class="fas fa-notes-medical fa-3x mb-3 d-block"
+							style="opacity: 0.3;"></i>
+						<p class="mb-0">No medical notes available</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Back Button -->
+		<div class="mt-4">
+			<a th:href="@{/doctor/appointments}"
+				class="btn btn-outline-secondary"> <i class="fas fa-arrow-left"></i>
+				Back to Appointments
+			</a>
+		</div>
+	</div>
+
+	<footer th:replace="~{fragments/footer :: footer}"></footer>
+	<div th:replace="~{fragments/footer :: scripts}"></div>
+</body>
+</html>

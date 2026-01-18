@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head}"></head>
+<body>
+	<nav th:replace="~{fragments/header :: navbar}"></nav>
+
+	<div class="container mt-4">
+		<h2 class="mb-4">
+			<i class="fas fa-user-plus"></i> Add New Doctor
+		</h2>
+
+		<div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+		<div class="card">
+			<div class="card-body">
+				<form th:action="@{/admin/doctors/add}" method="post">
+					<h5 class="mb-3">User Account Details</h5>
+					<div class="row">
+						<div class="col-md-6 mb-3">
+							<label class="form-label">Full Name *</label> <input type="text"
+								class="form-control" name="user.fullName"
+								th:value="${user?.fullName}" required>
+						</div>
+
+						<div class="col-md-6 mb-3">
+							<label class="form-label">Username *</label> <input type="text"
+								class="form-control" name="user.username"
+								th:value="${user?.username}" required>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-6 mb-3">
+							<label class="form-label">Email *</label> <input type="email"
+								class="form-control" name="user.email" th:value="${user?.email}"
+								required>
+						</div>
+
+						<div class="col-md-6 mb-3">
+							<label class="form-label">Phone *</label> <input type="text"
+								class="form-control" name="user.phone" th:value="${user?.phone}"
+								required>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-6 mb-3">
+							<label class="form-label">Password *</label> <input
+								type="password" class="form-control" name="user.password"
+								required>
+						</div>
+					</div>
+
+					<hr>
+
+					<h5 class="mb-3">Doctor Professional Details</h5>
+					<div class="row">
+						<div class="col-md-6 mb-3">
+							<label class="form-label">Specialization *</label> <input
+								type="text" class="form-control" name="doctor.specialization"
+								th:value="${doctor?.specialization}"
+								placeholder="e.g., Cardiologist, Neurologist" required>
+						</div>
+
+						<div class="col-md-6 mb-3">
+							<label class="form-label">License Number *</label> <input
+								type="text" class="form-control" name="doctor.licenseNumber"
+								th:value="${doctor?.licenseNumber}" required>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-6 mb-3">
+							<label class="form-label">Experience (years) *</label> <input
+								type="number" class="form-control" name="doctor.experience"
+								th:value="${doctor?.experience}" min="0" required>
+						</div>
+
+						<div class="col-md-6 mb-3">
+							<label class="form-label">Department *</label> <select
+								class="form-control" name="doctor.departmentId" required>
+								<option value="">Select Department</option>
+								<option th:each="dept : ${departments}" th:value="${dept.id}"
+									th:text="${dept.name}"
+									th:selected="${doctor?.departmentId == dept.id}">
+									Department</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="mb-3">
+						<label class="form-label">Qualifications</label>
+						<textarea class="form-control" name="doctor.qualifications"
+							rows="3" th:text="${doctor?.qualifications}"
+							placeholder="e.g., MBBS, MD, Fellowship details"></textarea>
+					</div>
+
+					<button type="submit" class="btn btn-success">
+						<i class="fas fa-save"></i> Add Doctor
+					</button>
+					<a th:href="@{/admin/doctors}" class="btn btn-secondary"> <i
+						class="fas fa-times"></i> Cancel
+					</a>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div th:replace="~{fragments/header :: scripts}"></div>
+</body>
+</html>

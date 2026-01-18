@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head}"></head>
+<body>
+	<nav th:replace="~{fragments/header :: navbar}"></nav>
+
+	<div class="container-fluid">
+		<div class="row">
+			<!-- Sidebar -->
+			<div class="col-md-2 sidebar p-0">
+				<div class="p-3">
+					<h5 class="text-white">
+						<i class="fas fa-user-md"></i> Doctor Panel
+					</h5>
+				</div>
+				<ul class="nav flex-column">
+					<li class="nav-item"><a class="nav-link active"
+						th:href="@{/doctor/dashboard}"> <i class="fas fa-dashboard"></i>
+							Dashboard
+					</a></li>
+					<li class="nav-item"><a class="nav-link"
+						th:href="@{/doctor/appointments}"> <i class="fas fa-calendar"></i>
+							My Appointments
+					</a></li>
+				</ul>
+			</div>
+
+			<!-- Main Content -->
+			<div class="col-md-10 p-4">
+				<h2 class="mb-4">
+					<i class="fas fa-dashboard"></i> Doctor Dashboard
+				</h2>
+
+				<div th:if="${success}" class="alert alert-success"
+					th:text="${success}"></div>
+				<div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+				<!-- Doctor Info -->
+				<div class="card mb-4">
+					<div class="card-header bg-primary text-white">
+						<h5>
+							<i class="fas fa-user"></i> My Profile
+						</h5>
+					</div>
+					<div class="card-body">
+						<div class="row">
+							<div class="col-md-6">
+								<p>
+									<strong>Name:</strong> <span th:text="${doctor.fullName}">Dr.
+										Smith</span>
+								</p>
+								<p>
+									<strong>Specialization:</strong> <span
+										th:text="${doctor.specialization}">Cardiology</span>
+								</p>
+								<p>
+									<strong>Experience:</strong> <span
+										th:text="${doctor.experience} + ' years'">5 years</span>
+								</p>
+							</div>
+							<div class="col-md-6">
+								<p>
+									<strong>Department:</strong> <span
+										th:text="${doctor.departmentName}">Heart Care</span>
+								</p>
+								<p>
+									<strong>License:</strong> <span
+										th:text="${doctor.licenseNumber}">LIC123</span>
+								</p>
+								<p>
+									<strong>Email:</strong> <span th:text="${doctor.email}">email@example.com</span>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Today's Appointments -->
+				<div class="card">
+					<div class="card-header">
+						<h5>
+							<i class="fas fa-calendar-day"></i> My Appointments
+						</h5>
+					</div>
+					<div class="card-body">
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>Patient Name</th>
+									<th>Date</th>
+									<th>Time</th>
+									<th>Symptoms</th>
+									<th>Status</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="appointment : ${appointments}">
+									<td th:text="${appointment.id}">1</td>
+									<td th:text="${appointment.patientName}">John Doe</td>
+									<td th:text="${appointment.appointmentDate}">2025-01-15</td>
+									<td th:text="${appointment.appointmentTime}">10:00</td>
+									<td th:text="${appointment.symptoms}">Fever, Headache</td>
+									<td><span class="badge"
+										th:classappend="${appointment.status == 'SCHEDULED' ? 'bg-primary' : 'bg-success'}"
+										th:text="${appointment.status}">SCHEDULED</span></td>
+									<td><a
+										th:href="@{/doctor/appointments/{id}(id=${appointment.id})}"
+										class="btn btn-info btn-sm"> <i class="fas fa-eye"></i>
+											View
+									</a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div th:replace="~{fragments/header :: scripts}"></div>
+</body>
+</html>

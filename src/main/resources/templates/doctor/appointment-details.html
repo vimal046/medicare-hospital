@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head}"></head>
+<body>
+	<nav th:replace="~{fragments/header :: navbar}"></nav>
+
+	<div class="container py-4">
+		<div class="d-flex align-items-center mb-4">
+			<a th:href="@{/doctor/appointments}"
+				class="btn btn-outline-secondary me-3"> <i
+				class="fas fa-arrow-left"></i>
+			</a>
+			<h2 class="page-title mb-0">
+				<i class="fas fa-clipboard-list"></i> Appointment Details
+			</h2>
+		</div>
+
+		<div th:if="${success}" class="alert alert-success"
+			th:text="${success}"></div>
+		<div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+		<div class="row g-4">
+			<!-- Appointment Information -->
+			<div class="col-lg-6">
+				<div class="card mb-4">
+					<div class="card-header"
+						style="background: linear-gradient(135deg, #06b6d4, #0891b2);">
+						<h5 class="mb-0">
+							<i class="fas fa-info-circle"></i> Appointment Information
+						</h5>
+					</div>
+					<div class="card-body">
+						<div class="mb-3">
+							<label class="text-secondary small">Appointment ID</label>
+							<h6 class="fw-bold" th:text="'#' + ${appointment.id}">1</h6>
+						</div>
+						<div class="mb-3">
+							<label class="text-secondary small">Patient Name</label>
+							<h6 class="fw-bold">
+								<i class="fas fa-user text-primary"></i> <span
+									th:text="${appointment.patientName}">John Doe</span>
+							</h6>
+						</div>
+						<div class="row">
+							<div class="col-md-6 mb-3">
+								<label class="text-secondary small">Date</label>
+								<h6 class="fw-bold">
+									<i class="fas fa-calendar"></i> <span
+										th:text="${appointment.appointmentDate}">2025-01-15</span>
+								</h6>
+							</div>
+							<div class="col-md-6 mb-3">
+								<label class="text-secondary small">Time</label>
+								<h6 class="fw-bold">
+									<i class="fas fa-clock"></i> <span
+										th:text="${appointment.appointmentTime}">10:00</span>
+								</h6>
+							</div>
+						</div>
+						<div class="mb-3">
+							<label class="text-secondary small">Symptoms</label>
+							<p class="mb-0" th:text="${appointment.symptoms}">Fever,
+								Headache</p>
+						</div>
+						<div class="mb-3">
+							<label class="text-secondary small">Status</label>
+							<div>
+								<span class="badge"
+									th:classappend="${appointment.status == 'SCHEDULED' ? 'bg-warning' : 'bg-success'}"
+									th:text="${appointment.status}">SCHEDULED</span>
+							</div>
+						</div>
+						<div th:if="${appointment.diagnosis}" class="mb-3">
+							<label class="text-secondary small">Diagnosis</label>
+							<p class="mb-0" th:text="${appointment.diagnosis}">Diagnosis
+								details</p>
+						</div>
+					</div>
+				</div>
+
+				<!-- Complete Appointment Form -->
+				<div class="card" th:if="${appointment.status == 'SCHEDULED'}">
+					<div class="card-header"
+						style="background: linear-gradient(135deg, #10b981, #059669);">
+						<h5 class="mb-0">
+							<i class="fas fa-check-circle"></i> Complete Appointment
+						</h5>
+					</div>
+					<div class="card-body">
+						<form
+							th:action="@{/doctor/appointments/{id}/complete(id=${appointment.id})}"
+							method="post">
+							<div class="mb-4">
+								<label class="form-label">Diagnosis *</label>
+								<textarea class="form-control" name="diagnosis" rows="5"
+									placeholder="Enter detailed diagnosis..." required></textarea>
+							</div>
+							<button type="submit" class="btn btn-success w-100 btn-lg">
+								<i class="fas fa-check"></i> Complete Appointment
+							</button>
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<!-- Prescriptions Section -->
+			<div class="col-lg-6">
+				<div class="card mb-4">
+					<div class="card-header"
+						style="background: linear-gradient(135deg, #2563eb, #1e40af);">
+						<h5 class="mb-0">
+							<i class="fas fa-prescription-bottle-alt"></i> Prescriptions
+						</h5>
+					</div>
+					<div class="card-body">
+						<div th:if="${#lists.isEmpty(prescriptions)}"
+							class="text-center py-4 text-secondary">
+							<i class="fas fa-prescription fa-3x mb-3 d-block"></i>
+							<p class="mb-0">No prescriptions added yet</p>
+						</div>
+
+						<div th:if="${not #lists.isEmpty(prescriptions)}">
+							<div class="prescription-item mb-3 p-3 border rounded"
+								th:each="rx : ${prescriptions}">
+								<h6 class="fw-bold text-primary mb-2">
+									<i class="fas fa-pills"></i> <span th:text="${rx.medicineName}">Medicine</span>
+								</h6>
+								<div class="row small">
+									<div class="col-6">
+										<label class="text-secondary">Dosage:</label>
+										<p class="mb-1 fw-bold" th:text="${rx.dosage}">2 times</p>
+									</div>
+									<div class="col-6">
+										<label class="text-secondary">Duration:</label>
+										<p class="mb-1 fw-bold" th:text="${rx.duration} + ' days'">7
+											days</p>
+									</div>
+								</div>
+								<div class="mt-2">
+									<label class="text-secondary small">Instructions:</label>
+									<p class="mb-0" th:text="${rx.instructions}">After meals</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Add Prescription Form -->
+				<div class="card">
+					<div class="card-header"
+						style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+						<h5 class="mb-0">
+							<i class="fas fa-plus-circle"></i> Add New Prescription
+						</h5>
+					</div>
+					<div class="card-body">
+						<form th:action="@{/doctor/prescriptions/add}"
+							th:object="${prescription}" method="post">
+							<input type="hidden" name="appointmentId"
+								th:value="${appointment.id}">
+
+							<div class="mb-3">
+								<label class="form-label">Medicine Name *</label> <input
+									type="text" class="form-control" th:field="*{medicineName}"
+									placeholder="e.g., Paracetamol" required>
+							</div>
+
+							<div class="mb-3">
+								<label class="form-label">Dosage *</label> <input type="text"
+									class="form-control" th:field="*{dosage}"
+									placeholder="e.g., 2 times daily" required>
+							</div>
+
+							<div class="mb-3">
+								<label class="form-label">Duration (days) *</label> <input
+									type="number" class="form-control" th:field="*{duration}"
+									placeholder="7" min="1" required>
+							</div>
+
+							<div class="mb-4">
+								<label class="form-label">Instructions</label>
+								<textarea class="form-control" th:field="*{instructions}"
+									rows="3" placeholder="e.g., Take after meals"></textarea>
+							</div>
+
+							<button type="submit" class="btn btn-warning w-100 btn-lg">
+								<i class="fas fa-plus"></i> Add Prescription
+							</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div th:replace="~{fragments/header :: scripts}"></div>
+</body>
+</html>

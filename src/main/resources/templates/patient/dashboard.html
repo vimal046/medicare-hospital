@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head}"></head>
+<body>
+	<nav th:replace="~{fragments/header :: navbar}"></nav>
+
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-2 p-0">
+				<div th:replace="~{fragments/header :: patient-sidebar}"></div>
+			</div>
+
+			<div class="col-md-10 p-4">
+				<h2 class="page-title">
+					<i class="fas fa-tachometer-alt"></i> Patient Dashboard
+				</h2>
+
+				<div th:if="${success}" class="alert alert-success"
+					th:text="${success}"></div>
+				<div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+				<!-- Patient Profile Card -->
+				<div class="card mb-4">
+					<div class="card-header">
+						<h5 class="mb-0">
+							<i class="fas fa-user-circle"></i> My Profile
+						</h5>
+					</div>
+					<div class="card-body">
+						<div class="row">
+							<div class="col-md-4">
+								<div class="mb-3">
+									<label class="text-secondary small">Full Name</label>
+									<h6 class="fw-bold" th:text="${patient.fullName}">John Doe</h6>
+								</div>
+								<div class="mb-3">
+									<label class="text-secondary small">Email</label>
+									<h6 class="fw-bold" th:text="${patient.email}">email@example.com</h6>
+								</div>
+								<div class="mb-3">
+									<label class="text-secondary small">Phone</label>
+									<h6 class="fw-bold" th:text="${patient.phone}">1234567890</h6>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="mb-3">
+									<label class="text-secondary small">Date of Birth</label>
+									<h6 class="fw-bold" th:text="${patient.dateOfBirth}">1990-01-01</h6>
+								</div>
+								<div class="mb-3">
+									<label class="text-secondary small">Gender</label>
+									<h6 class="fw-bold" th:text="${patient.gender}">Male</h6>
+								</div>
+								<div class="mb-3">
+									<label class="text-secondary small">Blood Group</label>
+									<h6>
+										<span class="badge bg-danger" th:text="${patient.bloodGroup}">O+</span>
+									</h6>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="mb-3">
+									<label class="text-secondary small">Address</label>
+									<p class="mb-0" th:text="${patient.address}">123 Main St</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Quick Actions -->
+				<div class="row g-4 mb-4">
+					<div class="col-md-4">
+						<a th:href="@{/patient/appointments/book}"
+							class="text-decoration-none">
+							<div class="card text-center h-100 border-0 shadow-sm">
+								<div class="card-body p-4">
+									<div class="mb-3">
+										<i class="fas fa-calendar-plus"
+											style="font-size: 3.5rem; color: var(--primary-color);"></i>
+									</div>
+									<h5 class="fw-bold mb-2">Book Appointment</h5>
+									<p class="text-secondary small mb-3">Schedule a visit with
+										our doctors</p>
+									<span class="btn btn-primary btn-sm">Book Now</span>
+								</div>
+							</div>
+						</a>
+					</div>
+					<div class="col-md-4">
+						<a th:href="@{/patient/appointments}" class="text-decoration-none">
+							<div class="card text-center h-100 border-0 shadow-sm">
+								<div class="card-body p-4">
+									<div class="mb-3">
+										<i class="fas fa-calendar-alt"
+											style="font-size: 3.5rem; color: var(--success-color);"></i>
+									</div>
+									<h5 class="fw-bold mb-2">My Appointments</h5>
+									<p class="text-secondary small mb-3">View your appointment
+										history</p>
+									<span class="btn btn-success btn-sm">View All</span>
+								</div>
+							</div>
+						</a>
+					</div>
+					<div class="col-md-4">
+						<a th:href="@{/patient/prescriptions}"
+							class="text-decoration-none">
+							<div class="card text-center h-100 border-0 shadow-sm">
+								<div class="card-body p-4">
+									<div class="mb-3">
+										<i class="fas fa-prescription-bottle-alt"
+											style="font-size: 3.5rem; color: var(--info-color);"></i>
+									</div>
+									<h5 class="fw-bold mb-2">Prescriptions</h5>
+									<p class="text-secondary small mb-3">Access your medical
+										prescriptions</p>
+									<span class="btn btn-info btn-sm">View All</span>
+								</div>
+							</div>
+						</a>
+					</div>
+				</div>
+
+				<!-- Recent Appointments -->
+				<div class="card">
+					<div class="card-header">
+						<h5 class="mb-0">
+							<i class="fas fa-history"></i> Recent Appointments
+						</h5>
+					</div>
+					<div class="card-body p-0">
+						<div class="table-responsive">
+							<table class="table table-hover mb-0">
+								<thead>
+									<tr>
+										<th>Date & Time</th>
+										<th>Doctor</th>
+										<th>Department</th>
+										<th>Status</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="apt, stat : ${appointments}"
+										th:if="${stat.index < 5}">
+										<td>
+											<div>
+												<i class="fas fa-calendar text-secondary"></i> <span
+													th:text="${apt.appointmentDate}">2025-01-15</span>
+											</div>
+											<div>
+												<i class="fas fa-clock text-secondary"></i> <span
+													th:text="${apt.appointmentTime}">10:00</span>
+											</div>
+										</td>
+										<td><i class="fas fa-user-md text-primary"></i> <strong
+											th:text="${apt.doctorName}">Dr. Smith</strong></td>
+										<td><span class="badge bg-info"
+											th:text="${apt.departmentName}">Cardiology</span></td>
+										<td><span class="badge"
+											th:classappend="${apt.status == 'SCHEDULED' ? 'bg-primary' : (apt.status == 'COMPLETED' ? 'bg-success' : 'bg-danger')}"
+											th:text="${apt.status}">SCHEDULED</span></td>
+									</tr>
+									<tr th:if="${#lists.isEmpty(appointments)}">
+										<td colspan="4" class="text-center py-4 text-secondary">
+											<i class="fas fa-inbox fa-3x mb-3 d-block"></i> No
+											appointments yet
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div th:replace="~{fragments/header :: scripts}"></div>
+</body>
+</html>

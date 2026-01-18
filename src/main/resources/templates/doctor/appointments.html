@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head}"></head>
+<body>
+	<nav th:replace="~{fragments/header :: navbar}"></nav>
+
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-2 sidebar p-0">
+				<div class="p-3">
+					<h5 class="text-white">
+						<i class="fas fa-user-md"></i> Doctor Panel
+					</h5>
+				</div>
+				<ul class="nav flex-column">
+					<li class="nav-item"><a class="nav-link"
+						th:href="@{/doctor/dashboard}"> <i class="fas fa-dashboard"></i>
+							Dashboard
+					</a></li>
+					<li class="nav-item"><a class="nav-link active"
+						th:href="@{/doctor/appointments}"> <i class="fas fa-calendar"></i>
+							My Appointments
+					</a></li>
+				</ul>
+			</div>
+
+			<div class="col-md-10 p-4">
+				<h2 class="mb-4">
+					<i class="fas fa-calendar"></i> My Appointments
+				</h2>
+
+				<div th:if="${success}" class="alert alert-success"
+					th:text="${success}"></div>
+				<div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+				<div class="card">
+					<div class="card-body">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>Patient</th>
+									<th>Contact</th>
+									<th>Date</th>
+									<th>Time</th>
+									<th>Symptoms</th>
+									<th>Status</th>
+									<th>Actions</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="apt : ${appointments}">
+									<td th:text="${apt.id}">1</td>
+									<td th:text="${apt.patientName}">John Doe</td>
+									<td th:text="${apt.patientEmail}">email@example.com</td>
+									<td th:text="${apt.appointmentDate}">2025-01-15</td>
+									<td th:text="${apt.appointmentTime}">10:00</td>
+									<td th:text="${apt.symptoms}">Fever</td>
+									<td><span class="badge"
+										th:classappend="${apt.status == 'SCHEDULED' ? 'bg-warning' : (apt.status == 'COMPLETED' ? 'bg-success' : 'bg-danger')}"
+										th:text="${apt.status}">SCHEDULED</span></td>
+									<td><a
+										th:href="@{/doctor/appointments/{id}(id=${apt.id})}"
+										class="btn btn-primary btn-sm"> <i class="fas fa-edit"></i>
+											Manage
+									</a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div th:replace="~{fragments/header :: scripts}"></div>
+</body>
+</html>

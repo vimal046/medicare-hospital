@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head}"></head>
+<body>
+	<nav th:replace="~{fragments/header :: navbar}"></nav>
+
+	<div class="container py-5">
+		<div class="row justify-content-center">
+			<div class="col-md-8">
+				<div class="text-center mb-4">
+					<h2 class="display-6 fw-bold" style="color: var(--primary-color);">
+						<i class="fas fa-user-edit"></i> Complete Your Profile
+					</h2>
+					<p class="text-secondary">Please provide your details to
+						continue</p>
+				</div>
+
+				<div class="card shadow-lg">
+					<div class="card-body p-5">
+						<div th:if="${message}" class="alert alert-info"
+							th:text="${message}"></div>
+						<div th:if="${error}" class="alert alert-danger"
+							th:text="${error}"></div>
+
+						<form th:action="@{/patient/profile/complete}"
+							th:object="${patient}" method="post">
+							<div class="row g-3 mb-4">
+								<div class="col-md-6">
+									<label class="form-label">Date of Birth *</label> <input
+										type="date" class="form-control form-control-lg"
+										th:field="*{dateOfBirth}"
+										th:max="${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd')}"
+										required>
+								</div>
+
+								<div class="col-md-6">
+									<label class="form-label">Gender *</label> <select
+										class="form-select form-select-lg" th:field="*{gender}"
+										required>
+										<option value="">Select Gender</option>
+										<option value="Male">Male</option>
+										<option value="Female">Female</option>
+										<option value="Other">Other</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="row g-3 mb-4">
+								<div class="col-md-6">
+									<label class="form-label">Blood Group</label> <select
+										class="form-select form-select-lg" th:field="*{bloodGroup}">
+										<option value="">Select Blood Group</option>
+										<option value="A+">A+</option>
+										<option value="A-">A-</option>
+										<option value="B+">B+</option>
+										<option value="B-">B-</option>
+										<option value="O+">O+</option>
+										<option value="O-">O-</option>
+										<option value="AB+">AB+</option>
+										<option value="AB-">AB-</option>
+									</select>
+								</div>
+
+								<div class="col-md-6">
+									<label class="form-label">Phone Number *</label> <input
+										type="text" class="form-control form-control-lg"
+										th:field="*{phone}" placeholder="9876543210" required>
+								</div>
+							</div>
+
+							<div class="mb-4">
+								<label class="form-label">Address</label>
+								<textarea class="form-control" th:field="*{address}" rows="3"
+									placeholder="Enter your full address"></textarea>
+							</div>
+
+							<div class="mb-4">
+								<label class="form-label">Medical History</label>
+								<textarea class="form-control" th:field="*{medicalHistory}"
+									rows="4"
+									placeholder="Any allergies, chronic conditions, previous surgeries, medications, etc."></textarea>
+								<small class="text-secondary">This information helps
+									doctors provide better care</small>
+							</div>
+
+							<button type="submit" class="btn btn-primary w-100 btn-lg">
+								<i class="fas fa-save"></i> Save Profile
+							</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div th:replace="~{fragments/header :: scripts}"></div>
+</body>
+</html>

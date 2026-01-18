@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/header :: head}"></head>
+<body>
+	<nav th:replace="~{fragments/header :: navbar}"></nav>
+
+	<div class="container-fluid">
+		<div class="row">
+			<!-- Sidebar -->
+			<div class="col-md-2 sidebar p-0">
+				<div class="p-3">
+					<h5 class="text-white">
+						<i class="fas fa-user-shield"></i> Admin Panel
+					</h5>
+				</div>
+				<ul class="nav flex-column">
+					<li class="nav-item"><a class="nav-link active"
+						th:href="@{/admin/dashboard}"> <i class="fas fa-dashboard"></i>
+							Dashboard
+					</a></li>
+					<li class="nav-item"><a class="nav-link"
+						th:href="@{/admin/departments}"> <i class="fas fa-building"></i>
+							Departments
+					</a></li>
+					<li class="nav-item"><a class="nav-link"
+						th:href="@{/admin/doctors}"> <i class="fas fa-user-md"></i>
+							Doctors
+					</a></li>
+					<li class="nav-item"><a class="nav-link"
+						th:href="@{/admin/appointments}"> <i class="fas fa-calendar"></i>
+							Appointments
+					</a></li>
+				</ul>
+			</div>
+
+			<!-- Main Content -->
+			<div class="col-md-10 p-4">
+				<h2 class="mb-4">
+					<i class="fas fa-dashboard"></i> Admin Dashboard
+				</h2>
+
+				<div th:if="${success}" class="alert alert-success"
+					th:text="${success}"></div>
+				<div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+				<!-- Statistics Cards -->
+				<div class="row mb-4">
+					<div class="col-md-4">
+						<div class="card text-white bg-primary">
+							<div class="card-body">
+								<h5 class="card-title">
+									<i class="fas fa-user-md"></i> Total Doctors
+								</h5>
+								<h2 th:text="${#lists.size(doctors)}">0</h2>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="card text-white bg-success">
+							<div class="card-body">
+								<h5 class="card-title">
+									<i class="fas fa-building"></i> Departments
+								</h5>
+								<h2 th:text="${#lists.size(departments)}">0</h2>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="card text-white bg-info">
+							<div class="card-body">
+								<h5 class="card-title">
+									<i class="fas fa-calendar"></i> Appointments
+								</h5>
+								<h2 th:text="${#lists.size(appointments)}">0</h2>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Recent Appointments -->
+				<div class="card">
+					<div class="card-header">
+						<h5>
+							<i class="fas fa-calendar"></i> Recent Appointments
+						</h5>
+					</div>
+					<div class="card-body">
+						<div class="table-responsive">
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>Patient</th>
+										<th>Doctor</th>
+										<th>Date</th>
+										<th>Time</th>
+										<th>Status</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="appointment : ${appointments}"
+										th:if="${appointmentStat.index < 10}">
+										<td th:text="${appointment.id}">1</td>
+										<td th:text="${appointment.patientName}">John Doe</td>
+										<td th:text="${appointment.doctorName}">Dr. Smith</td>
+										<td th:text="${appointment.appointmentDate}">2025-01-15</td>
+										<td th:text="${appointment.appointmentTime}">10:00</td>
+										<td><span class="badge"
+											th:classappend="${appointment.status == 'SCHEDULED' ? 'bg-primary' : (appointment.status == 'COMPLETED' ? 'bg-success' : 'bg-danger')}"
+											th:text="${appointment.status}">SCHEDULED</span></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div th:replace="~{fragments/header :: scripts}"></div>
+</body>
+</html>

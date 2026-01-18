@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head}"></head>
+<body>
+	<nav th:replace="~{fragments/header :: navbar}"></nav>
+
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-2 sidebar p-0">
+				<div class="p-3">
+					<h5 class="text-white">
+						<i class="fas fa-user-shield"></i> Admin Panel
+					</h5>
+				</div>
+				<ul class="nav flex-column">
+					<li class="nav-item"><a class="nav-link"
+						th:href="@{/admin/dashboard}"> <i class="fas fa-dashboard"></i>
+							Dashboard
+					</a></li>
+					<li class="nav-item"><a class="nav-link"
+						th:href="@{/admin/departments}"> <i class="fas fa-building"></i>
+							Departments
+					</a></li>
+					<li class="nav-item"><a class="nav-link"
+						th:href="@{/admin/doctors}"> <i class="fas fa-user-md"></i>
+							Doctors
+					</a></li>
+					<li class="nav-item"><a class="nav-link active"
+						th:href="@{/admin/appointments}"> <i class="fas fa-calendar"></i>
+							Appointments
+					</a></li>
+				</ul>
+			</div>
+
+			<div class="col-md-10 p-4">
+				<h2 class="mb-4">
+					<i class="fas fa-calendar"></i> All Appointments
+				</h2>
+
+				<div class="card">
+					<div class="card-body">
+						<div class="table-responsive">
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>Patient</th>
+										<th>Doctor</th>
+										<th>Department</th>
+										<th>Date</th>
+										<th>Time</th>
+										<th>Status</th>
+										<th>Symptoms</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="apt : ${appointments}">
+										<td th:text="${apt.id}">1</td>
+										<td th:text="${apt.patientName}">John Doe</td>
+										<td th:text="${apt.doctorName}">Dr. Smith</td>
+										<td th:text="${apt.departmentName}">Cardiology</td>
+										<td th:text="${apt.appointmentDate}">2025-01-15</td>
+										<td th:text="${apt.appointmentTime}">10:00</td>
+										<td><span class="badge"
+											th:classappend="${apt.status == 'SCHEDULED' ? 'bg-primary' : (apt.status == 'COMPLETED' ? 'bg-success' : 'bg-danger')}"
+											th:text="${apt.status}">SCHEDULED</span></td>
+										<td th:text="${apt.symptoms}">Fever</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div th:replace="~{fragments/header :: scripts}"></div>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head}"></head>
+<body>
+	<div class="container">
+		<div class="row justify-content-center align-items-center"
+			style="min-height: 100vh;">
+			<div class="col-md-5">
+				<div class="text-center mb-4">
+					<h1 class="display-4 fw-bold" style="color: var(--primary-color);">
+						<i class="fas fa-hospital-alt"></i> MediCare
+					</h1>
+					<p class="text-secondary">Sign in to your account</p>
+				</div>
+
+				<div class="card shadow-lg border-0">
+					<div class="card-body p-5">
+						<div th:if="${param.error}" class="alert alert-danger">
+							<i class="fas fa-exclamation-circle"></i> Invalid username or
+							password
+						</div>
+
+						<div th:if="${param.logout}" class="alert alert-success">
+							<i class="fas fa-check-circle"></i> You have been logged out
+							successfully
+						</div>
+
+						<div th:if="${success}" class="alert alert-success"
+							th:text="${success}"></div>
+						<div th:if="${error}" class="alert alert-danger"
+							th:text="${error}"></div>
+
+						<form th:action="@{/login}" method="post">
+							<div class="mb-4">
+								<label class="form-label">Username</label>
+								<div class="input-group">
+									<span class="input-group-text"><i class="fas fa-user"></i></span>
+									<input type="text" class="form-control form-control-lg"
+										name="username" placeholder="Enter your username" required
+										autofocus>
+								</div>
+							</div>
+
+							<div class="mb-4">
+								<label class="form-label">Password</label>
+								<div class="input-group">
+									<span class="input-group-text"><i class="fas fa-lock"></i></span>
+									<input type="password" class="form-control form-control-lg"
+										name="password" placeholder="Enter your password" required>
+								</div>
+							</div>
+
+							<button type="submit" class="btn btn-primary w-100 btn-lg mb-3">
+								<i class="fas fa-sign-in-alt"></i> Sign In
+							</button>
+
+							<div class="text-center">
+								<p class="text-secondary mb-0">
+									Don't have an account? <a th:href="@{/register}"
+										class="text-decoration-none fw-bold"
+										style="color: var(--primary-color);">Register here</a>
+								</p>
+							</div>
+						</form>
+					</div>
+				</div>
+
+				<div class="text-center mt-4">
+					<a th:href="@{/}" class="text-decoration-none text-secondary">
+						<i class="fas fa-arrow-left"></i> Back to Home
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div th:replace="~{fragments/header :: scripts}"></div>
+</body>
+</html>
