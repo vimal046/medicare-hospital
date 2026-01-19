@@ -233,8 +233,8 @@ Contributions are welcome! Please follow these steps:
 
 **Your Name**
 
-- GitHub: [@YOUR_USERNAME](https://github.com/vimal046)
-- LinkedIn: [Your LinkedIn](www.linkedin.com/in/vimal-s-7572b6310)
+- GitHub: [https://github.com/vimal046](https://github.com/vimal046)
+- LinkedIn: [www.linkedin.com/in/vimal-s-7572b6310](www.linkedin.com/in/vimal-s-7572b6310)
 
 ---
 
