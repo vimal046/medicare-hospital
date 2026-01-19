@@ -5,7 +5,6 @@ A comprehensive, production-ready Hospital Management System built with **Spring
 ![Java](https://img.shields.io/badge/Java-17-orange?style=flat&logo=java)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.0-brightgreen?style=flat&logo=spring)
 ![MySQL](https://img.shields.io/badge/MySQL-8.0-blue?style=flat&logo=mysql)
-![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 
 ---
 
@@ -26,8 +25,6 @@ A comprehensive, production-ready Hospital Management System built with **Spring
 ## 🎯 Overview
 
 MediCare is an enterprise-grade hospital management platform that streamlines healthcare operations through three distinct user roles: **Admin**, **Doctor**, and **Patient**. The system enables efficient appointment booking, prescription management, and maintains comprehensive electronic health records.
-
-**Live Demo**: [Coming Soon]
 
 ---
 
@@ -178,38 +175,6 @@ http://localhost:8080
 
 ---
 
-## 📖 Usage
-
-### Sample Credentials
-
-The application comes with pre-populated sample data:
-
-#### Admin Account
-
-- **Username:** `admin`
-- **Password:** `admin123`
-
-#### Doctor Accounts
-
-- **Username:** `dr.smith` | **Password:** `admin123` (Cardiologist)
-- **Username:** `dr.jones` | **Password:** `admin123` (Neurologist)
-- **Username:** `dr.williams` | **Password:** `admin123` (Orthopedic Surgeon)
-
-#### Patient Accounts
-
-- **Username:** `patient1` | **Password:** `admin123`
-- **Username:** `patient2` | **Password:** `admin123`
-
-### Quick Start Guide
-
-1. **Register as a new patient** or use sample credentials
-2. **Complete your profile** (for new patients)
-3. **Book an appointment** by selecting department and doctor
-4. **Doctors** can view, diagnose, and prescribe medications
-5. **Admins** can manage the entire hospital operations
-
----
-
 ## 📁 Project Structure
 
 ```
@@ -237,10 +202,6 @@ medicare/
 - ✅ **Production-Ready** - Enterprise-grade code quality
 - ✅ **Security-First** - Spring Security with BCrypt encryption
 - ✅ **Clean Architecture** - Layered design with DTO pattern
-- ✅ **Responsive UI** - Modern, mobile-friendly interface
-- ✅ **Auto-Initialization** - Sample data for quick testing
-- ✅ **Well-Documented** - Comprehensive code comments
-- ✅ **Interview-Ready** - Demonstrates best practices
 
 ---
 
@@ -261,16 +222,10 @@ medicare/
 Contributions are welcome! Please follow these steps:
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit changes (`git commit -m 'Add AmazingFeature'`)
-4. Push to branch (`git push origin feature/AmazingFeature`)
+2. Create a feature branch (`git checkout -b feature/NewFeature`)
+3. Commit changes (`git commit -m 'Add NewFeature'`)
+4. Push to branch (`git push origin feature/NewFeature`)
 5. Open a Pull Request
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
@@ -278,18 +233,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Your Name**
 
-- GitHub: [@YOUR_USERNAME](https://github.com/YOUR_USERNAME)
-- LinkedIn: [Your LinkedIn](https://linkedin.com/in/your-profile)
-- Email: your.email@example.com
-
----
-
-## 🙏 Acknowledgments
-
-- Spring Boot Documentation
-- Bootstrap Team
-- FontAwesome Icons
-- Thymeleaf Community
+- GitHub: [@YOUR_USERNAME](https://github.com/vimal046)
+- LinkedIn: [Your LinkedIn](www.linkedin.com/in/vimal-s-7572b6310)
 
 ---
 
