@@ -241,7 +241,3 @@ Contributions are welcome! Please follow these steps:
 ## ⭐ Show your support
 
 Give a ⭐️ if this project helped you learn or build something amazing!
-
----
-
-**Made with ❤️ using Spring Boot**
